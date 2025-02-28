@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  nginx-example:
+    container_name: nginx-example
+    image: nginx:latest
+    ports:
+      - protocol: tcp
+        published: 8080
+        target: 80
+  mongodb-example:
+    container_name: mongodb-example
+    image: mongo:latest
+    ports:
+      - protocol: tcp
+        published: 27019
+        target: 27019
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Flo
+      MONGO_INITDB_ROOT_PASSWORD: Flo
+      MONGO_INITDB_ROOT_DATABASE: contohMongo
+    networks:
+      - network_example
+    volumes:
+      - type: bind
+        source: "/data-mongo2"
+        target: "/data/db"
+        read_only: false
+  redis-example:
+    container_name: redis-example
+    image: redis:latest
+    ports:
+      - protocol: tcp
+        published: 6379
+        target: 6379
+
+networks:
+  network_example:
+    name: network_example
+    driver: bridge
